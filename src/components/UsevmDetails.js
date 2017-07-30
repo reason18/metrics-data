@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import ChartAttendance from './ChartAttendance';
 import ChartFailedRequests from './ChartFailedRequests';
+import Preloader from './Preloader';
 
 class UsevmDetails extends Component {
   getAttendanceChart() {
@@ -35,7 +36,6 @@ class UsevmDetails extends Component {
   }
   getFailedRequestsChart() {
     let labels = [];
-    let data = [];
     for(let i = 0; i<this.props.usevmData.users.length; i++) {
       labels[i] = `day${i+1}`;
     }
@@ -62,17 +62,16 @@ class UsevmDetails extends Component {
     let attendanceChartData = this.getAttendanceChart();
     let failedRequestsChartData = this.getFailedRequestsChart();
     return (
-
       <div  className="usevm-details-block">
         <Link to="/"><span className="btn btn-primary cover-btn-position">Go back</span></Link>
         <div className="cover-holder">
           <h2 className="cover-h2">Usevm.com details metrics</h2>
           <div className="graph-of-attendance graph-block">
-            <h3>Graph of attendance for last 30 days</h3>
+            <h3>Graph of attendance</h3>
             <ChartAttendance siteData={attendanceChartData}/>
           </div>
           <div className="graph-of-failed-requests graph-block">
-            <h3>Graph of failed requests for last 30 days</h3>
+            <h3>Graph of failed requests</h3>
             <ChartFailedRequests siteData={failedRequestsChartData}/>
           </div>
           <div className="unique-users-block">
@@ -82,12 +81,14 @@ class UsevmDetails extends Component {
             Average time for accessing to site for week: {this.props.usevmData.averageAccessTime}
           </div>
         </div>
+        <Preloader fetched={this.props.fetched} />
       </div>
     );
   }
 }
 
 export default connect(
-  (state) => { return {usevmData : state.usevmData,}
+  (state) => { return {usevmData : state.usevmData,
+  fetched: state.mocodingData.fetched}
   }
 )(UsevmDetails);

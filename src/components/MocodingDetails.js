@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import ChartAttendance from './ChartAttendance';
 import ChartFailedRequests from './ChartFailedRequests';
+import Preloader from './Preloader';
 
 class MocodingDetails extends Component {
   getAttendanceChart() {
@@ -68,20 +69,20 @@ class MocodingDetails extends Component {
   render() {
     let attendanceChartData = this.getAttendanceChart();
     let failedRequestsChartData = this.getFailedRequestsChart();
-    console.log('Details props',this.props)
     return (
+
       <div  className="mocoding-details-block">
       <Link to="/"><span className="btn btn-primary cover-btn-position">Go back</span></Link>
         <div className="cover-holder">
           <h2 className="cover-h2">Mocoding.com details metrics</h2>
           <div className="graph-of-attendance graph-block">
-            <h3>Graph of attendance for last 30 days</h3>
+            <h3>Graph of attendance</h3>
             <div className="graph">
               <ChartAttendance siteData={attendanceChartData}/>
             </div>
           </div>
           <div className="graph-of-failed-requests graph-block">
-            <h3>Graph of failed requests for last 30 days</h3>
+            <h3>Graph of failed requests</h3>
             <div className="graph">
               <ChartFailedRequests siteData={failedRequestsChartData}/>
             </div>
@@ -93,12 +94,14 @@ class MocodingDetails extends Component {
             Average time for accessing to site for week: {this.props.mocodingData.averageAccessTime}
           </div>
         </div>
+        <Preloader fetched={this.props.fetched} />
       </div>
     );
   }
 }
 
 export default connect(
-  (state) => { return {mocodingData : state.mocodingData,}
+  (state) => { return {mocodingData : state.mocodingData,
+  fetched: state.mocodingData.fetched }
   }
 )(MocodingDetails);

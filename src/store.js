@@ -58,9 +58,9 @@ store.dispatch(fetchUsersData('FETCH_USEVM_UNIC_USERS', usevmId, usevmKey, ''));
 store.dispatch(fetchBrowserPageloadTime('FETCH_MOCODING_AVERAGE_ACCESS_TIME', mocodingId, mocodingKey));
 store.dispatch(fetchBrowserPageloadTime('FETCH_USEVM_AVERAGE_ACCESS_TIME', usevmId, usevmKey));
 
-store.subscribe(() => {
-  console.log(store.getState())
-})
+// store.subscribe(() => {
+//   console.log(store.getState())
+// })
 
 
 export default store;
